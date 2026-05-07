@@ -1,0 +1,61 @@
+name: API Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      baseUrl:
+        description: "Base URL of the API under test"
+        required: false
+        default: "http://18.194.45.232:3333"
+
+permissions:
+  contents: read
+
+jobs:
+  api-tests:
+    name: Run API tests on Java 21
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle with cache
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Run API tests
+        env:
+          # TestConfig picks BASE_URL from the environment automatically.
+          # workflow_dispatch input wins; falls back to the default base URL.
+          BASE_URL: ${{ github.event.inputs.baseUrl || 'http://18.194.45.232:3333' }}
+        run: ./gradlew clean test --no-daemon
+
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-html
+          path: build/reports/tests/test
+          if-no-files-found: warn
+
+      - name: Upload JUnit XML results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-xml
+          path: build/test-results/test
+          if-no-files-found: warn

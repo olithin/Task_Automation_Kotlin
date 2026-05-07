@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Logback configuration for the test scope.
+    Logback prefers logback-test.xml over logback.xml when present.
+    test.properties: testLogLevel — root threshold for the whole test JVM (all loggers
+    unless overridden below). INFO shows your log.info; DEBUG also shows log.debug.
+-->
+<configuration>
+    <property resource="test.properties"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="${testLogLevel:-WARN}">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

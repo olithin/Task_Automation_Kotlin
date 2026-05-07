@@ -1,0 +1,39 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/**/build/
+
+# IntelliJ IDEA / Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# JetBrains Fleet
+.fleet/
+
+# VS Code
+.vscode/
+
+# Eclipse
+.settings/
+.project
+.classpath
+bin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test outputs
+**/test-output/
+**/reports/
+
+# Local env files
+*.local
+.env
