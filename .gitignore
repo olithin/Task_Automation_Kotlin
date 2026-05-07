@@ -37,3 +37,6 @@ Thumbs.db
 # Local env files
 *.local
 .env
+
+# Local test config (template: test.properties.example)
+src/test/resources/test.properties

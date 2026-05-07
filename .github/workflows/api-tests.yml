@@ -37,6 +37,9 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
+      - name: Prepare test.properties for CI
+        run: cp src/test/resources/test.properties.example src/test/resources/test.properties
+
       - name: Run API tests
         env:
           # TestConfig picks BASE_URL from the environment automatically.

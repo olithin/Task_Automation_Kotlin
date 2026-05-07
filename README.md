@@ -2,7 +2,7 @@
 
 Black-box API tests for user registration (`POST /user/create` as `multipart/form-data`) and listing users (`GET /user/get`). The repository is test-only (`src/test`): no production application code. Tests use unique usernames/emails so they stay independent on a shared environment.
 
-The default base URL is set in `src/test/resources/test.properties`.
+`src/test/resources/test.properties` is not committed (local overrides). Copy **`src/test/resources/test.properties.example`** to **`test.properties`** before running tests, or set **`BASE_URL`** / **`-DbaseUrl`** (see Configuration below).
 
 ## API under test
 
@@ -121,6 +121,14 @@ CI: `.github/workflows/api-tests.yml`.
 
 ## How to run
 
+First time (or after clone), create local config:
+
+```bash
+cp src/test/resources/test.properties.example src/test/resources/test.properties
+```
+
+Then:
+
 ```bash
 ./gradlew test
 ```
@@ -131,7 +139,7 @@ Windows (PowerShell), override base URL:
 .\gradlew.bat test "-DbaseUrl=http://18.194.45.232:3333"
 ```
 
-Configuration resolution: **system properties** → **environment variables** (`BASE_URL`, etc.) → **`test.properties`**. If `baseUrl` is missing, startup fails with a clear error.
+Configuration resolution: **system properties** → **environment variables** (`BASE_URL`, etc.) → **`test.properties`** (create from **`test.properties.example`** if missing from VCS). If `baseUrl` is missing, startup fails with a clear error.
 
 Single class:
 
